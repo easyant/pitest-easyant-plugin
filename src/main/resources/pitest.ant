@@ -20,9 +20,28 @@
 
     <ea:core-version requiredrevision="[0.9,+]" />
 
+    <ea:plugin module="abstract-test" revision="0.10" />
+
     <target name="pitest:init">
         <taskdef  name="pitest" classname="org.pitest.ant.PitestTask" classpathref="org.apache.easyant.plugins#pitest.classpath"/>
-        <echo level="debug">This is the init target of pitest</echo>
+        <ea:parameter property="pitest.nbthread" default="1"
+            description="The number of threads to use when mutation testing" />
+        <ea:parameter property="pitest.target.classes" default="*"
+            description="The classes to be mutated" />
+        <ea:parameter property="pitest.target.tests" default="*"
+            description="A list of globs can be supplied to this parameter to limit the tests available to be run. This parameter can be used to point PIT to a top level suite or suites. Custom suites such as ClassPathSuite are supported. Tests found via these suites can also be limited by the distance filter." />
+        <ea:parameter property="pitest.reportdir" default="${target.reports}/pitest"
+            description="Output directory for the reports" />
+    </target>
+
+    <target name="pitest:run" description="process mutation coverage" extensionOf="abstract-test:test-run">
+        <pitest pitClasspath="org.apache.easyant.plugins#pitest.classpath"
+          threads="${pitest.nbthread}"
+          classPath="run.test.classpath"
+          targetTests="${pitest.target.tests}"
+          targetClasses="${pitest.target.classes}"
+          reportDir="${pitest.reportdir}"
+          sourceDir="src" />
     </target>
 
 </project>

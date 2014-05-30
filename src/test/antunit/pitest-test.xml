@@ -36,21 +36,12 @@
     
     <target name="setUp" depends="clean"/>
     <target name="tearDown" depends="clean"/>
-    
-    <!-- init test case -->         
+            
     <target name="test-pitest:init" depends="pitest:init">
-        <au:assertLogContains level="debug" text="This is the init target of pitest"/>
+        <au:assertPropertyEquals name="pitest.nbthread" value="1" />
+        <au:assertPropertyEquals name="pitest.target.classes" value="*" />
+        <au:assertPropertyEquals name="pitest.target.tests" value="*" />
+        <au:assertPropertyEquals name="pitest.reportdir" value="${target.reports}/pitest" />
     </target>
-    
-    <!--
-        A sample ant unit test case, 
-        see the antunit official documentation for more informations
-        
-        <target name="test-pitest:sample" description="a sample of ant unit test case">
-            <au:assertTrue>
-                <matches string="abc" pattern="abc"/>
-            </au:assertTrue>
-        </target>
-    -->
 
 </project>
