@@ -33,6 +33,7 @@
 	<ea:parameter property="target.reports" default="${target}/reports" description="base directory for reports" />
 	<ea:parameter property="pitest.reportdir" default="${target.reports}/pitest"
             description="Output directory for the reports" />
+	<ea:parameter property="main.sources" required="true" description="directory where sources to be compiled are. This property should be reused by other plugins to locate sources."/>
     </target>
 
     <target name="pitest:run" description="process mutation coverage" extensionOf="abstract-test:test-run" depends="pitest:init">
@@ -47,7 +48,7 @@
           targetTests="${pitest.target.tests}"
           targetClasses="${pitest.target.classes}"
           reportDir="${pitest.reportdir}"
-          sourceDir="src/main/java" />
+          sourceDir="${main.sources}" />
     </target>
 
 </project>

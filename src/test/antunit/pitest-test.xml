@@ -37,6 +37,7 @@
     <target name="setUp" depends="clean">
 	<property name="pitest.target.classes" value="org.apache.easyant.*"/>
 	<property name="pitest.target.tests" value="org.apache.easyant.*"/>
+	<property name="main.sources" value="src/main/java"/>
 
 	<propertyset id="test.propertyset.ref" />
 
