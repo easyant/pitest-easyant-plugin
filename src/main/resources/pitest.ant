@@ -26,22 +26,28 @@
         <taskdef  name="pitest" classname="org.pitest.ant.PitestTask" classpathref="org.apache.easyant.plugins#pitest.classpath"/>
         <ea:parameter property="pitest.nbthread" default="1"
             description="The number of threads to use when mutation testing" />
-        <ea:parameter property="pitest.target.classes" default="*"
+        <ea:parameter property="pitest.target.classes" required="true"
             description="The classes to be mutated" />
-        <ea:parameter property="pitest.target.tests" default="*"
+        <ea:parameter property="pitest.target.tests" required="true"
             description="A list of globs can be supplied to this parameter to limit the tests available to be run. This parameter can be used to point PIT to a top level suite or suites. Custom suites such as ClassPathSuite are supported. Tests found via these suites can also be limited by the distance filter." />
-        <ea:parameter property="pitest.reportdir" default="${target.reports}/pitest"
+	<ea:parameter property="target.reports" default="${target}/reports" description="base directory for reports" />
+	<ea:parameter property="pitest.reportdir" default="${target.reports}/pitest"
             description="Output directory for the reports" />
     </target>
 
-    <target name="pitest:run" description="process mutation coverage" extensionOf="abstract-test:test-run">
+    <target name="pitest:run" description="process mutation coverage" extensionOf="abstract-test:test-run" depends="pitest:init">
+	<mkdir dir="${pitest.reportdir}"/>
+	<path id="mutation.path">
+		<path refid="org.apache.easyant.plugins#pitest.classpath"/>
+		<path refid="run.test.classpath"/>
+	</path>
         <pitest pitClasspath="org.apache.easyant.plugins#pitest.classpath"
           threads="${pitest.nbthread}"
-          classPath="run.test.classpath"
+          classPath="mutation.path"
           targetTests="${pitest.target.tests}"
           targetClasses="${pitest.target.classes}"
           reportDir="${pitest.reportdir}"
-          sourceDir="src" />
+          sourceDir="src/main/java" />
     </target>
 
 </project>
